@@ -25,7 +25,8 @@
             "@graphqlTypes": ["__generated__"],
             "@entities": ["src/entities"],
             "@types": ["types"],
-            "@api": ["src/api"]
+            "@api": ["src/api"],
+            "@utils": ["utils"]
         }
     },
     "include": ["index.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],

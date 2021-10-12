@@ -124,7 +124,7 @@ declare module "coingecko-api" {
 
   export default class CoinGecko {
     ping: () => Promise<Response>;
-    global: () => Promise<Response>;
+    global: () => Promise<Response<GlobalResponse>>;
     coins: {
       all: (AllParams) => Promise<Response>;
       list: () => Promise<Response>;
@@ -151,6 +151,13 @@ declare module "coingecko-api" {
   export type Category = string;
 
   export type BaseResponse = any;
+  export type GlobalResponse = {
+    data: {
+      total_market_cap: CurrencyMap<number>;
+      total_volume: CurrencyMap<number>;
+      market_cap_change_percentage_24h_usd: number;
+    };
+  };
   export type FetchResponse = {
     error?: string;
     id: CoinID;

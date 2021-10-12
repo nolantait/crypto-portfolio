@@ -1,8 +1,8 @@
 import CoinGecko from "coingecko-api";
 import type * as Gecko from "coingecko-api";
-import { Coin } from "@entities";
 
 export type FetchResponse = Gecko.FetchResponse;
+export type GlobalResponse = Gecko.GlobalResponse;
 export type FetchError = { error: string };
 export const client = new CoinGecko();
 
@@ -16,4 +16,9 @@ export const getCoin = async (
     }
     return data;
   });
+};
+
+export const getMarket = async (): Promise<Gecko.GlobalResponse> => {
+  const response = await client.global();
+  return response.data;
 };

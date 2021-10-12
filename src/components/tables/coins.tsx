@@ -1,5 +1,5 @@
 import React from "react";
-import { Coin } from "@entities";
+import { Coin, Market } from "@entities";
 import { View } from "@types";
 import { Column, Table, Cell } from "@blueprintjs/table";
 import currency from "currency.js";
@@ -19,13 +19,13 @@ const USD = (value: number | string) =>
 
 export const CoinTable: View.Component<Props> = ({ coins }) => {
   console.log(coins);
-  const StringCell = (accesor: Accessor<string | number>) => (
+  const BaseCell = (accesor: Accessor<string | number>) => (
     rowIndex: number
   ) => {
     const coin = coins[rowIndex];
     const value = accesor(coin);
 
-    return <Cell>{value}</Cell>;
+    return <Cell wrapText={true}>{value}</Cell>;
   };
 
   const DollarCell = (accesor: Accessor<string | number>) => (
@@ -36,17 +36,31 @@ export const CoinTable: View.Component<Props> = ({ coins }) => {
     const value = accesor(coin);
     const formatted = USD(value).format();
 
-    return <Cell>{formatted}</Cell>;
+    return <Cell className="text-right">{formatted}</Cell>;
   };
 
   const columns: Columns = {
-    Name: StringCell((coin: Coin) => coin.name),
-    Ticker: StringCell((coin: Coin) => coin.symbol),
+    Name: BaseCell((coin: Coin) => coin.name),
+    Ticker: BaseCell((coin: Coin) => coin.symbol),
     "Market Cap": DollarCell((coin: Coin) => coin.marketCap()),
     "Fully Diluted Market Cap": DollarCell((coin: Coin) =>
       coin.marketCap({ diluted: true })
     ),
+    Score: BaseCell((coin: Coin) => coin.scorecard.overallScore),
+    Allocation: BaseCell((coin: Coin) => {
+      const value =
+        100 *
+        (coin.scorecard.overallScore /
+          coins.reduce((acc, c) => (acc += c.scorecard.overallScore), 1));
+
+      return value * 0.85;
+    }),
   };
+
+  const generatedColumns: Columns = {};
+  for (const key in coins[0].scorecard.card) {
+    generatedColumns[key] = BaseCell((coin: Coin) => coin.scorecard.card[key]);
+  }
 
   const renderColumns = (columns: Columns) => {
     if (coins.length) {
@@ -57,5 +71,9 @@ export const CoinTable: View.Component<Props> = ({ coins }) => {
     }
   };
 
-  return <Table numRows={coins.length}>{renderColumns(columns)}</Table>;
+  return (
+    <Table className="bp3-dark" numRows={coins.length}>
+      {renderColumns({ ...columns, ...generatedColumns })}
+    </Table>
+  );
 };

@@ -128,7 +128,7 @@ declare module "coingecko-api" {
     coins: {
       all: (AllParams) => Promise<Response>;
       list: () => Promise<Response>;
-      markets: (MarketParams) => Promise<Response>;
+      markets: (MarketParams) => Promise<Response<MarketData>>;
       fetch: (FetchParams) => Promise<Response<FetchResponse>>;
       fetchTickers: (FetchTickersParams) => Promise<Response>;
       fetchHistory: (FetchHistoryParams) => Promise<Response>;
@@ -152,6 +152,7 @@ declare module "coingecko-api" {
 
   export type BaseResponse = any;
   export type FetchResponse = {
+    error?: string;
     id: CoinID;
     symbol: CoinSymbol;
     name: string;

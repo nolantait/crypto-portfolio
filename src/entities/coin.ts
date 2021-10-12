@@ -11,9 +11,13 @@ export type Scorecard = {
 };
 
 export class Coin {
-  constructor(readonly dto: CoinGecko.FetchResponse) {}
+  readonly dto: CoinGecko.FetchResponse;
 
-  marketCap(diluted = false): number {
+  constructor(dto: CoinGecko.FetchResponse) {
+    this.dto = dto;
+  }
+
+  marketCap({ diluted } = { diluted: false }): number {
     if (diluted) {
       return this.dto.market_data.fully_diluted_valuation?.usd ?? 0;
     } else {

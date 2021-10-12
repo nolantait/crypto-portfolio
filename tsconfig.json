@@ -22,7 +22,10 @@
             "@styles/*": ["src/styles/*"],
             "@styles": ["src/styles"],
             "@graphqlTypes/*": ["__generated__/*"],
-            "@graphqlTypes": ["__generated__"]
+            "@graphqlTypes": ["__generated__"],
+            "@entities": ["src/entities"],
+            "@types": ["types"],
+            "@api": ["src/api"]
         }
     },
     "include": ["index.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],

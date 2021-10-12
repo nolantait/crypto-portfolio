@@ -25,6 +25,6 @@
             "@graphqlTypes": ["__generated__"]
         }
     },
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+    "include": ["index.d.ts", "next-env.d.ts", "**/*.ts", "**/*.tsx"],
     "exclude": ["node_modules", "cypress/*"]
 }
